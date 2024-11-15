@@ -7,8 +7,8 @@ import os
 # App title
 st.set_page_config(page_title="🤖Personal Chatbot🤖")
 
-# Google Drive file ID for model.safetensors
-GDRIVE_FILE_ID = MODEL_KEY
+# Access MODEL_KEY from Streamlit secrets
+MODEL_KEY = st.secrets["keys"]["MODEL_KEY"]
 MODEL_PATH = "model.safetensors"
 
 # Download model from Google Drive if it doesn't exist locally
@@ -16,7 +16,7 @@ def download_model():
     import gdown
     if not os.path.exists(MODEL_PATH):
         with st.spinner("Downloading model..."):
-            gdown.download(f"https://drive.google.com/uc?id={GDRIVE_FILE_ID}", MODEL_PATH, quiet=False)
+            gdown.download(f"https://drive.google.com/uc?id={MODEL_KEY}", MODEL_PATH, quiet=False)
 
 # Load the model and tokenizer
 @st.cache_resource
@@ -77,3 +77,4 @@ if st.session_state.messages[-1]["role"] != "assistant":
             response = generate_response(prompt)
             st.write(response)
     st.session_state.messages.append({"role": "assistant", "content": response})
+
