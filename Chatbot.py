@@ -5,7 +5,7 @@ from safetensors import safe_open
 import os
 
 # App title
-st.set_page_config(page_title="🤖Personal Chatbot🤖")
+st.set_page_config(page_title="Personal Chatbot", page_icon="🤖", layout="centered")
 
 # Access MODEL_KEY from Streamlit secrets
 MODEL_KEY = st.secrets["keys"]["MODEL_KEY"]
