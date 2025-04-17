@@ -23,17 +23,15 @@ def download_model():
 @st.cache_resource(show_spinner=False)
 def load_model():
     download_model()
-    # Load the base GPT2 model
     model = GPT2LMHeadModel.from_pretrained('gpt2')
-    # Load weights from the safetensors file
     with safe_open(MODEL_PATH, framework="pt") as f:
         for name, param in model.named_parameters():
-            if f.has_tensor(name):  # Check if the tensor exists in the file
+            if name in f.keys():  # <-- Fixed check here
                 param.data = f.get_tensor(name)
             else:
                 st.warning(f"Missing tensor: {name}")
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-    tokenizer.pad_token = tokenizer.eos_token  # Set EOS token as pad token
+    tokenizer.pad_token = tokenizer.eos_token
     return model, tokenizer
 
 # Load model and tokenizer
