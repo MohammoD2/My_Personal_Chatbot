@@ -1,20 +1,22 @@
+# Environment fixes FIRST
+import os
+os.environ["STREAMLIT_SERVER_ENABLE_FILE_WATCHER"] = "false"
+
+import asyncio
+try:
+    import nest_asyncio
+    nest_asyncio.apply()
+except ImportError:
+    pass
+
+# Now other imports
 import streamlit as st
 import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 from safetensors import safe_open
-import os
 import gdown
-import asyncio
 
-# --- Environment Setup for Streamlit Cloud ---
-os.environ["STREAMLIT_SERVER_ENABLE_FILE_WATCHER"] = "false"
-
-# Event loop configuration
-try:
-    asyncio.get_event_loop().close()
-except RuntimeError:
-    pass
-asyncio.set_event_loop(asyncio.new_event_loop())
+# Rest of your original code...
 
 # --- Page Configuration ---
 st.set_page_config(page_title="Personal Chatbot", page_icon="🤖", layout="centered")
